@@ -19,7 +19,7 @@ app.get('/',(req, res) => {
 app.use('/user', userRoutes)
 app.use('/questions', questionRoutes)
 app.use('/answer',answerRoutes)
-const PORT = process.env.PORT || 5000
+const PORT = process.env.PORT || 3001
 const CONNECTION_URL="mongodb+srv://shreya03:shreya1207@stack-overflow-clone.ul4dzdo.mongodb.net/?retryWrites=true&w=majority"
 
 mongoose.connect( CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: true})

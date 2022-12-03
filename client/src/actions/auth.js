@@ -22,3 +22,13 @@ export const login = (authData, navigate) => async (dispatch) => {
         console.log(error)
     }
 }
+export const otp = (authData, navigate) => async (dispatch) => {
+    try {
+        const { data } = await api.logIn(authData)
+        dispatch({ type: 'AUTH', data})
+        dispatch(setCurrentUser( JSON.parse(localStorage.getItem('Profile')) ))
+        navigate('/')
+    } catch (error) {
+        console.log(error)
+    }
+}
