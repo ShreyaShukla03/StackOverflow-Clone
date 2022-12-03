@@ -81,6 +81,8 @@ const Auth = () => {
                             </p>
                         )
                     }
+                    <h5>OR</h5>
+                    <button type='submit' className='auth-btn'>{ isSignup ? 'Sign up': 'Log in with OTP'}</button>
                 </form>
                 <p>
                     {isSignup ? 'Already have an account?' : "Don't have an account?"}
