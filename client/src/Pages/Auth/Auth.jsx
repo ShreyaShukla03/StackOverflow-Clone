@@ -5,8 +5,8 @@ import { useNavigate } from 'react-router-dom'
 import './Auth.css'
 import icon from '../../assets/icon.png'
 import AboutAuth from './AboutAuth'
-import { signup, login } from '../../actions/auth'
-import axios from 'axios'
+import { signup, login, otpRoute } from '../../actions/auth'
+
 const Auth = () => {
     const [isSignup, setIsSignup] = useState(false)
     const [name, setName] = useState('')
@@ -16,7 +16,9 @@ const Auth = () => {
     const [isOTP,setIsOTP]=useState(false);
     const [isLogin,setIsLogin] = useState(true);
     const [otpSent,setOtpSent] = useState(false);
-
+    const [otp,setOTP] = useState('');
+    const [validateOTP,setValidateOTP] = useState(false);
+    const [isForgot,setIsForgot] = useState(false);
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
@@ -31,21 +33,45 @@ const Auth = () => {
         setIsSignup(!isSignup)
     }
     const sendOTP = () => {
-        if(!otpSent){
-            setOtpSent(!otpSent)
+        if(number.length===10){
+            if(!otpSent){
+                setOtpSent(!otpSent)
+            }
+            let number = "";
+            for(let i =0;i<4;i++){
+                number +=Math.floor(Math.random() * 10).toString();
+            }
+            alert(number);
+        }else{
+            alert("Enter 10 digits!")
         }
-        console.log("Add OTP API here");
     }
     const handleOTP = () => {
         console.log(otpSent)
         setIsOTP(!isOTP)
         setIsLogin(!isLogin)
     }
+    const handleForgot = () => {
+        setIsLogin(false)
+        setIsForgot(!isForgot)
+    }
+    const verifyOTP = () => {
+        if(otp.length===4){
+            setValidateOTP(true)
+        }
+    }
+
+    const handleRecovery = () => {
+        alert("Account recovery email sent to ", email)
+    }
 
     const handleSubmit = (e) => {
         e.preventDefault()
         if(isOTP){
-            console.log("Signing in with OTP");
+            if(validateOTP){
+                console.log("Signing in with OTP");
+                dispatch(otpRoute({ number, otp }, navigate))
+            }
         }else{
             if(!email && !password){
                 alert('Enter email and password')
@@ -83,7 +109,7 @@ const Auth = () => {
                     <label htmlFor="password">
                         <div style={{display:"flex", justifyContent:"space-between"}}>
                             <h4>Password</h4>
-                            { isLogin && <p style={{ color: "#007ac6", fontSize:'13px'}}>forgot password?</p> }
+                            { isLogin && <button type='button' className='handle-switch-btn' onClick={handleForgot}>{'Forgot Password?'}</button> }
                         </div>
                         <input type="password" name='password' id='password' onChange={(e) => {setPassword(e.target.value)}}/>
                         { isSignup && <p style={{ color: "#666767", fontSize:"13px"}}>Passwords must contain at least eight<br />characters, including at least 1 letter and 1<br /> number.</p> }
@@ -115,25 +141,36 @@ const Auth = () => {
                 {isOTP && <form onSubmit={handleSubmit}>
                     <label htmlFor="number">
                         <h4>Mobile Number</h4>
-                        <input type="number" name='number' id='number' onChange={(e) => {setNumber(e.target.value)}}/>
+                        <input type="number" name='number' id='number' onChange={(e) => {setNumber(e.target.value)}} maxLength= "10"/>
                         <div className='send-otp'>
-                        <button type='submit' className='glow-on-hover' onClick={sendOTP}>{'Send OTP'}</button>
+                        <button type='submit' className='glow-on-hover' onClick={sendOTP} disabled={otpSent}>{'Send OTP'}</button>
                         </div>
                     </label>
                     <label htmlFor="otp">
                         <h4>Enter OTP</h4>
-                        <input type="otp" name='otp' id='otp' onChange={(e) => {setNumber(e.target.value)}} disabled={!otpSent} maxLength= "4"/>
+                        <input type="password" name='otp' id='otp' onChange={(e) => {setOTP(e.target.value)}} disabled={!otpSent} maxLength= "4"/>
                     </label>
-                    <button type='submit' className='auth-btn'>{ isSignup ? 'Sign up': 'Log in'}</button>
+                    <button type='submit' className='auth-btn' disabled={!otpSent} onClick={verifyOTP}>{ isSignup ? 'Sign up': 'Log in'}</button>
                     {!isSignup && <div>
                     <h5>OR</h5>
                     <button type='button' className='handle-switch-btn' onClick={handleOTP}>{'Log in with Password'}</button>
                     </div>}
                 </form>}
-                <p>
+                {isForgot && <form id='forgot-psswrd-form'>
+                    <p className='info'>
+                    Forgot your account’s password or having trouble logging into your Team?
+                    Enter your email address and we’ll send you a recovery link.
+                    </p>
+                    <label htmlFor="email">
+                        <h4>Email</h4>
+                        <input type="email" name='email' id='email' onChange={(e) => {setEmail(e.target.value)}}/>
+                    </label>
+                    <button type='submit' className='auth-btn' onClick={handleRecovery}>{'Send recovery email'}</button>
+                </form>}
+                {(isLogin || isOTP || isSignup) && <p>
                     {isSignup ? 'Already have an account?' : "Don't have an account?"}
-                    <button type='button' className='handle-switch-btn' onClick={handleSwitch}>{ isSignup ? "Log in" : 'sign up'}</button>
-                </p>
+                    <button type='button' className='handle-switch-btn' onClick={handleSwitch}>{ isSignup ? "Log In" : 'Sign Up'}</button>
+                </p>}
             </div>
         </section>
     )
