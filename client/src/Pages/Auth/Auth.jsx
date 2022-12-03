@@ -23,6 +23,9 @@ const Auth = () => {
         if(isOTP){
             setIsOTP(!isOTP)
         }
+        if(!isOTP){
+            setIsLogin(!isLogin)
+        }
         setIsSignup(!isSignup)
     }
     const sendOTP = (number) => {
@@ -55,12 +58,10 @@ const Auth = () => {
 
     return (
         <section class='auth-section'>
-            <div className="auth-container-2">
-            </div>
             {!isOTP && isSignup && <AboutAuth />}
             <div class='auth-container-2'>
                 { (isLogin || isOTP) && <img src={icon} alt='stack overflow' className='login-logo'/>}
-                {isLogin && <form onSubmit={handleSubmit}>
+                {(isLogin || isSignup) && <form onSubmit={handleSubmit}>
                     {
                         isSignup && (
                             <label htmlFor='name'>
@@ -100,8 +101,10 @@ const Auth = () => {
                             </p>
                         )
                     }
+                    {!isSignup && <div>
                     <h5>OR</h5>
                     <button type='button' className='handle-switch-btn' onClick={handleOTP}>{'Log in with OTP'}</button>
+                    </div>}
                 </form>}
                 {isOTP && <form onSubmit={handleSubmit}>
                     <label htmlFor="number">
@@ -114,8 +117,10 @@ const Auth = () => {
                         <input type="otp" name='otp' id='otp' onChange={(e) => {setNumber(e.target.value)}}/>
                     </label>
                     <button type='submit' className='auth-btn'>{ isSignup ? 'Sign up': 'Log in'}</button>
+                    {!isSignup && <div>
                     <h5>OR</h5>
-                    <button type='button' className='handle-switch-btn' onClick={() => {handleSwitch();handleOTP();}}>{'Log in with Password'}</button>
+                    <button type='button' className='handle-switch-btn' onClick={handleOTP}>{'Log in with Password'}</button>
+                    </div>}
                 </form>}
                 <p>
                     {isSignup ? 'Already have an account?' : "Don't have an account?"}
