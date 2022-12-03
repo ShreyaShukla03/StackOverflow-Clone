@@ -15,6 +15,7 @@ const Auth = () => {
     const [password, setPassword] = useState('')
     const [isOTP,setIsOTP]=useState(false);
     const [isLogin,setIsLogin] = useState(true);
+    const [otpSent,setOtpSent] = useState(false);
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -22,16 +23,21 @@ const Auth = () => {
     const handleSwitch = () => {
         if(isOTP){
             setIsOTP(!isOTP)
+            setOtpSent(!otpSent)
         }
         if(!isOTP){
             setIsLogin(!isLogin)
         }
         setIsSignup(!isSignup)
     }
-    const sendOTP = (number) => {
+    const sendOTP = () => {
+        if(!otpSent){
+            setOtpSent(!otpSent)
+        }
         console.log("Add OTP API here");
     }
     const handleOTP = () => {
+        console.log(otpSent)
         setIsOTP(!isOTP)
         setIsLogin(!isLogin)
     }
@@ -58,7 +64,7 @@ const Auth = () => {
 
     return (
         <section class='auth-section'>
-            {!isOTP && isSignup && <AboutAuth />}
+            {isSignup && <AboutAuth />}
             <div class='auth-container-2'>
                 { (isLogin || isOTP) && <img src={icon} alt='stack overflow' className='login-logo'/>}
                 {(isLogin || isSignup) && <form onSubmit={handleSubmit}>
@@ -110,11 +116,13 @@ const Auth = () => {
                     <label htmlFor="number">
                         <h4>Mobile Number</h4>
                         <input type="number" name='number' id='number' onChange={(e) => {setNumber(e.target.value)}}/>
-                        <button type='submit' className='handle-switch-btn' onClick={sendOTP}>{'send otp'}</button>
+                        <div className='send-otp'>
+                        <button type='submit' className='glow-on-hover' onClick={sendOTP}>{'Send OTP'}</button>
+                        </div>
                     </label>
                     <label htmlFor="otp">
                         <h4>Enter OTP</h4>
-                        <input type="otp" name='otp' id='otp' onChange={(e) => {setNumber(e.target.value)}}/>
+                        <input type="otp" name='otp' id='otp' onChange={(e) => {setNumber(e.target.value)}} disabled={!otpSent} maxLength= "4"/>
                     </label>
                     <button type='submit' className='auth-btn'>{ isSignup ? 'Sign up': 'Log in'}</button>
                     {!isSignup && <div>
