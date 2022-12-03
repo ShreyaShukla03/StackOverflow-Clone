@@ -102,14 +102,14 @@ const Auth = () => {
                             </label>
                         )
                     }
-                    <label htmlFor="email">
+                    <label htmlFor="email" className='inputBox'>
                         <h4>Email</h4>
                         <input type="email" name='email' id='email' onChange={(e) => {setEmail(e.target.value)}}/>
                     </label>
-                    <label htmlFor="password">
+                    <label htmlFor="password" className='inputBox'>
                         <div style={{display:"flex", justifyContent:"space-between"}}>
                             <h4>Password</h4>
-                            { isLogin && <button type='button' className='handle-switch-btn' onClick={handleForgot}>{'Forgot Password?'}</button> }
+                            { isLogin && <button type='button' id='forgot' className='handle-switch-btn' onClick={handleForgot}>{'Forgot Password?'}</button> }
                         </div>
                         <input type="password" name='password' id='password' onChange={(e) => {setPassword(e.target.value)}}/>
                         { isSignup && <p style={{ color: "#666767", fontSize:"13px"}}>Passwords must contain at least eight<br />characters, including at least 1 letter and 1<br /> number.</p> }
@@ -139,14 +139,14 @@ const Auth = () => {
                     </div>}
                 </form>}
                 {isOTP && <form onSubmit={handleSubmit}>
-                    <label htmlFor="number">
+                    <label htmlFor="number" className='inputBox'>
                         <h4>Mobile Number</h4>
                         <input type="number" name='number' id='number' onChange={(e) => {setNumber(e.target.value)}} maxLength= "10"/>
                         <div className='send-otp'>
                         <button type='submit' className='glow-on-hover' onClick={sendOTP} disabled={otpSent}>{'Send OTP'}</button>
                         </div>
                     </label>
-                    <label htmlFor="otp">
+                    <label htmlFor="otp" className='inputBox'>
                         <h4>Enter OTP</h4>
                         <input type="password" name='otp' id='otp' onChange={(e) => {setOTP(e.target.value)}} disabled={!otpSent} maxLength= "4"/>
                     </label>

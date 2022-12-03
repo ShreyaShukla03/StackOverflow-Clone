@@ -77,3 +77,8 @@
 .nav-links:hover{
     background-color: #d3e4eb;
 }
+#signup{
+    background-color: #009dff;
+    color: white;
+    border: solid 1px #009dff;
+}

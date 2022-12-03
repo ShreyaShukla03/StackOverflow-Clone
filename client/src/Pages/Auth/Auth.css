@@ -61,7 +61,8 @@
 }
 
 .auth-btn{
-    margin-top: 10px;
+    margin-top: 25px;
+    margin-right: 7px;
     padding: 10px 5px;
     background-color: #009dff;
     border: solid 1px #009dff;
@@ -171,4 +172,22 @@ h5{
     flex-direction: column;
     justify-content: space-evenly;
     box-shadow: 0 10px 25px rgb(0 0 0 / 5%), 0 20px 48px rgb(0 0 0 / 5%), 0 1px 4px rgb(0 0 0 / 10%);
+}
+
+#check {
+    width: 15%;
+    margin: 42px 0px;
+    margin-top: 16px;
+    margin-right: -5px;
+    padding-bottom: 30px;
+}
+.inputBox{
+    margin-top: 25px;
+}
+#forgot{
+    font-size: 12px;
+}
+.auth-container-2 form label:nth-child(1) h4, .auth-container-2 form label:nth-child(2) h4, .auth-container-2 form label:nth-child(3) h4 {
+    margin-bottom: 11px;
+    margin-top: 10px;
 }

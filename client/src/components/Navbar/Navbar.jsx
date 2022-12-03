@@ -45,7 +45,10 @@ const Navbar = () => {
                     <img src={search} alt="search" width="18" className='search-icon'/>
                 </form>
                 { User === null ? 
-                    <Link to='/Auth' className='nav-item nav-links'>Log in</Link> : 
+                    <div>
+                        <Link to='/Auth' className='nav-item nav-links'>Log in</Link>
+                        <Link to='/Auth' id='signup' className='nav-item nav-links'>Sign up</Link>
+                    </div>   : 
                     <>
                         <Avatar backgroundColor='#009dff' px="10px" py="7px" borderRadius="50%" color='white'><Link to={`/Users/${User?.result?._id}`} style={{color:"white", textDecoration:'none'}}>{User.result.name.charAt(0).toUpperCase()}</Link></Avatar>
                         <button className='nav-item nav-links' onClick={handleLogout}>Log out</button>
